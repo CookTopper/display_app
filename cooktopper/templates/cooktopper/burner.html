@@ -8,17 +8,12 @@
 	</head>
 
 	<body>
-		<h1><center>HomePage</center></h1>
-		{% for burner in burners %}
-			<div class="burner">
-				<p>
-					<h1><a href ={% url 'burner' burner.id %} >{{burner.description}}</a></h1>
-					{{burner.temperature.description}}
-					{{burner.burner_state.description}}
-				</p>
-			</div>
-		{% endfor %}
+		<div class="burner">
+			<p><h1>Boca {{burner.description}}</h1></p>
+			<p>Temperatura: {{burner.temperature.description}}</p>
+			<p>Estado: {{burner.burner_state.description}}</p>
+		</div>
+
 	</body>
 </html>
-
 

@@ -1,0 +1,7 @@
+h1 {
+	color: #0000FF;
+}
+
+.burner h1 a, .burner h1 a:visited {
+	color: #FCA205;
+}

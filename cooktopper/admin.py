@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Stove, BurnerState, Temperature, Burner, PanState, Pan, ProgrammingType, ProgrammingDetails, Programming, Shortcut
+from .models import Stove, BurnerState, Temperature, Burner, PanState, Pan, ProgrammingType, ProgrammingDetails, Programming, Shortcut
 
 admin.site.register(Stove)
 admin.site.register(BurnerState)

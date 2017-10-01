@@ -9,6 +9,11 @@
 
 	<body>
 		<h1><center>HomePage</center></h1>
+
+		{% for request in request_json %}
+			<p>{{request.id}}</p>
+		{% endfor %}
+
 		{% for burner in burners %}
 			<div class="burner">
 				<p>

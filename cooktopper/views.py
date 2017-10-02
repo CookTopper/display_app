@@ -15,6 +15,18 @@ class WebServiceTemperature():
 		description = self.request_json[0].get('description')
 		return description
 
+class WebServiceBurnerState():
+	def __init__(self, id):
+		self.id = id
+		self.url = 'http://localhost:8000/burner_state/?id=' + str(id)
+		self.request_result = requests.get(self.url)
+		self.request_json = self.request_result.json()
+		self.request_text = self.request_result.text
+
+	def description(self):
+		description = self.request_json[0].get('description')
+		return description
+
 class WebServiceBurner():
 	def __init__(self, id):
 		self.id = id
@@ -40,7 +52,13 @@ class WebServiceBurner():
 		return Temperature.objects.get(description=temperature_description)
 
 	def burner_state_id(self):
-		pass
+		burner_state_id = self.request_json[0].get('burner_state')
+		return burner_state_id
+
+	def burner_state(self):
+		web_service_burner_state = WebServiceBurnerState(self.burner_state_id())
+		burner_state_description = web_service_burner_state.description()
+		return BurnerState.objects.get(description=burner_state_description)
 
 class RequestBurner():
 #	def create(self, url):
@@ -62,19 +80,30 @@ class RequestBurner():
 		for request in requests:
 			if (self.check_request(request)):
 				burner_web_service_id = request['burner_id']
+				temperature_web_service_id = request['new_temperature']
+				burner_state_web_service_id = request['new_burner_state']
+
 				web_service_burner = WebServiceBurner(burner_web_service_id)
 				burner_description = web_service_burner.description()
-
 				burner = Burner.objects.get(description=burner_description)
-				burner.temperature = web_service_burner.temperature()
+
+				web_service_temperature = WebServiceTemperature(temperature_web_service_id)
+				temperature_description = web_service_temperature.description()
+				new_temperature = Temperature.objects.get(description=temperature_description)
+
+				web_service_burner_state = WebServiceBurnerState(burner_state_web_service_id)
+				burner_state_description = web_service_burner_state.description()
+				new_burner_state = BurnerState.objects.get(description=burner_state_description)
+
+				burner.temperature = new_temperature
+				burner.burner_state = new_burner_state
 
 				burner.save()
 
-				#delete request here
+			#self.delete_request(request['id'])
 
-	def delete_request(request_id):
-		#Put here the logic to delete a RequestBurner request
-		pass
+	def delete_request(self, request_id):
+		requests.delete('http://localhost:8000/request_burner/' + str(request_id))
 
 def homepage(request):
 	request_burner_url = 'http://localhost:8000/request_burner/'

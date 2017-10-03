@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Stove, BurnerState, Temperature, Burner, PanState, Pan, ProgrammingType, ProgrammingDetails, Programming, Shortcut
 import requests
 import json
+import time
 
 class WebServiceTemperature():
 	def __init__(self, id):
@@ -61,18 +62,14 @@ class WebServiceBurner():
 		return BurnerState.objects.get(description=burner_state_description)
 
 class RequestBurner():
-#	def create(self, url):
-#		self.request_result = requests.get(url)
-#		self.request_list_json = request_result.json()
-
 	def get_requests(self, url):
 		request_result = requests.get(url)
 		request_json = request_result.json()
 		return request_json
 
 	def check_request(self, request):
-		#Put here the logic to check if too much time has passed
-		return True 
+		tolerance = 5
+		return int(time.time()) - int(request['time']) < tolerance
 
 	def update_burners(self, url):
 		requests = self.get_requests(url)

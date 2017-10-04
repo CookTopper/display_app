@@ -1,7 +1,41 @@
-h1 {
-	color: #0000FF;
+.stove {
+	border: 2px solid;
+	border-radius: 15px;
+	border-color: #607D8B;
+	height: 100%;
 }
 
-.burner h1 a, .burner h1 a:visited {
-	color: #FCA205;
+.black-background {
+	background: #191919;
+}
+
+.burner-row {
+	height: 100%;
+	margin: 10px;
+}
+
+.burner-info {
+	display: block;
+	color: white;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.mask {
+    overflow: hidden;
+    height: 200px;
+}
+
+.mask::after {
+    content: '';
+    overflow: hidden;
+    display: block;
+    margin-left: -20px;
+    width: 20px;
+    height: 100%;
+    border-radius: 12px / 125px;
+    box-shadow: 0 0 8px black;
 }

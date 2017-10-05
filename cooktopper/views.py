@@ -112,7 +112,7 @@ def homepage(request):
 
 	burners = Burner.objects.all()
 
-	return render(request, 'cooktopper/index.html', {'burners': burners, 'request_json': request_json})
+	return render(request, 'cooktopper/index.html', {'burners': burners})
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)

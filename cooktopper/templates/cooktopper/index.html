@@ -32,31 +32,28 @@
 	  					</div>
 	  				</div>
 		        </div>
-		        <div class="col-md-4">
-		        	<div class="row vertical-align">
-			        	<div class="col-md-7">
-		                	<img class="img-fluid" src="../../static/image/fire_on.png" alt="">				            		
-		                </div>
-		                <div class="col-md-5">
-		                	<span class="badge badge-pill badge-danger">Ligada</span>
-		                	<span class="burner-info"><i class="fa fa-thermometer-empty"></i> Alta</span>
-		                	<span class="burner-info"><i class="fa fa-clock-o"></i> 1m26s</span>
-		                </div>      
-		            </div>      
-		        </div>
-		        <div class="col-md-4">
-		        	<div class="row vertical-align">
-		        		<div class="col-md-7">
-		                	<img class="img-fluid" src="../../static/image/fire_off.png" alt="">					            		
-		                </div>
-		                <div class="col-md-5">
-		                	<span class="badge badge-pill badge-light">Desligada</span>
-		                	</br>
-		                	</br>	
-		                	</br>
-		                </div>    
-		        	</div>
-    			</div>       		
+				{% for burner in burners %}
+					<div class="col-md-4">
+						<div class="row vertical-align">
+							<div class="col-md-7">
+								{% if burner.burner_state.description == 'Ligada' %}
+									<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+								{% else %}
+									<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+								{% endif %}
+							</div>
+							<div class="col-md-5">
+								{% if burner.burner_state.description == 'Ligada' %}
+									<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
+									<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
+									<span class="burner-info"><i class="fa fa-clock-o"></i> 1m26s</span>
+								{% else %}
+									<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
     		</div>
     	</section>		
 	</body>

@@ -14,6 +14,7 @@ class Burner(models.Model):
 	stove = models.ForeignKey(Stove, on_delete=models.CASCADE)
 	temperature = models.ForeignKey(Temperature, on_delete=models.CASCADE)
 	burner_state = models.ForeignKey(BurnerState, on_delete=models.CASCADE)
+	time = models.IntegerField()
 
 class PanState(models.Model):
 	description = models.CharField(blank=False, max_length=45)

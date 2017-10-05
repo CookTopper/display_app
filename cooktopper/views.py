@@ -68,8 +68,9 @@ class RequestBurner():
 		return request_json
 
 	def check_request(self, request):
-		tolerance = 5
-		return int(time.time()) - int(request['time']) < tolerance
+		#TODO: Change tolerance
+		tolerance = int(1e31)
+		return int(time.time()) - int(request['new_time']) < tolerance
 
 	def update_burners(self, url):
 		requests = self.get_requests(url)
@@ -79,6 +80,7 @@ class RequestBurner():
 				burner_web_service_id = request['burner_id']
 				temperature_web_service_id = request['new_temperature']
 				burner_state_web_service_id = request['new_burner_state']
+				new_burner_time = int(request['new_time'])
 
 				web_service_burner = WebServiceBurner(burner_web_service_id)
 				burner_description = web_service_burner.description()
@@ -94,10 +96,11 @@ class RequestBurner():
 
 				burner.temperature = new_temperature
 				burner.burner_state = new_burner_state
+				burner.time = new_burner_time
 
 				burner.save()
 
-			#self.delete_request(request['id'])
+			self.delete_request(request['id'])
 
 	def delete_request(self, request_id):
 		requests.delete('http://localhost:8000/request_burner/' + str(request_id))
@@ -112,7 +115,9 @@ def homepage(request):
 
 	burners = Burner.objects.all()
 
-	return render(request, 'cooktopper/index.html', {'burners': burners})
+	current_time = int(time.time())
+
+	return render(request, 'cooktopper/index.html', {'burners': burners, 'current_time': current_time})
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)

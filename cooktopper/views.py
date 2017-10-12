@@ -3,6 +3,13 @@ from .models import Stove, BurnerState, Temperature, Burner, PanState, Pan, Prog
 import requests
 import json
 import time
+from django.utils.crypto import get_random_string
+
+class WebServiceStove():
+	def create(self, token):
+		stove_json = {'token': token}
+		url = 'http://localhost:8000/stove/'
+		requests.post(url, stove_json)
 
 class WebServiceTemperature():
 	def __init__(self, id):
@@ -106,11 +113,20 @@ class RequestBurner():
 		requests.delete('http://localhost:8000/request_burner/' + str(request_id))
 
 def homepage(request):
+	while not Stove.objects.all().exists():
+		stove = Stove()
+		stove.token = get_random_string(length=32)
+
+		web_service_stove = WebServiceStove()
+		url = 'http://localhost:8000/stove/'
+		request = requests.post(url, {'token': stove.token})
+
+		if request.status_code == 201:
+			stove.save()
+
 	request_burner_url = 'http://localhost:8000/request_burner/'
 
 	request_burner = RequestBurner()
-	request_json = request_burner.get_requests(request_burner_url)
-
 	request_burner.update_burners(request_burner_url)
 
 	burners = Burner.objects.all()

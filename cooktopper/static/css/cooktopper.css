@@ -39,3 +39,7 @@
     border-radius: 12px / 125px;
     box-shadow: 0 0 8px black;
 }
+
+.item-menu-margin {
+    margin: 10px;
+}

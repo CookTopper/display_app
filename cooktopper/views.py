@@ -168,4 +168,4 @@ def homepage(request):
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)
-	return render(request, 'cooktopper/burner.html', {'burner': burner})
+	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})

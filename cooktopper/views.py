@@ -104,9 +104,6 @@ class WebServiceBurner():
 
 		burner_json={'temperature': temperature_id, 'burner_state': burner_state_id, 'stove': self.stove_id(), 'description': self.description()}
 
-		print('temperature:' + str(temperature_id))
-		print('burner_state:' + str(burner_state_id))
-
 		url = 'http://localhost:8000/burner/' + str(self.id()) + '/'
 		requests.put(url, burner_json)
 
@@ -121,7 +118,7 @@ class RequestBurner():
 		tolerance = int(1e31)
 		return int(time.time()) - int(request['new_time']) < tolerance
 
-	def update_burners(self, url):
+	def update_burners(self, url = 'http://localhost:8000/request_burner/'):
 		requests = self.get_requests(url)
 
 		for request in requests:
@@ -156,8 +153,7 @@ class RequestBurner():
 
 def homepage(request):
 	request_burner = RequestBurner()
-	request_burner_url = 'http://localhost:8000/request_burner/'
-	request_burner.update_burners(request_burner_url)
+	request_burner.update_burners()
 
 	burners = Burner.objects.all()
 	for burner in burners:
@@ -168,4 +164,27 @@ def homepage(request):
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)
+
+	command = request.GET.get('turn_burner')
+
+	request_burner = RequestBurner()
+	request_burner.update_burners()
+
+	if(command == 'on' and burner.burner_state.description == 'Desligada'):
+		burner_state_on = BurnerState.objects.get(description='Ligada')
+		burner.burner_state = burner_state_on
+		burner.time = int(time.time()) 
+		burner.save()
+
+		web_service_burner = WebServiceBurner(description=burner.description)
+		web_service_burner.update()
+
+	if(command == 'off'):
+		burner_state_off = BurnerState.objects.get(description='Desligada')
+		burner.burner_state = burner_state_off
+		burner.save()
+
+		web_service_burner = WebServiceBurner(description=burner.description)
+		web_service_burner.update()
+
 	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})

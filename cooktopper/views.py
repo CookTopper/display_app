@@ -135,6 +135,15 @@ def homepage(request):
 
 	return render(request, 'cooktopper/index.html', {'burners': burners, 'current_time': current_time})
 
+def register(request):
+	stove = Stove.objects.all()
+
+	stove_token = stove[0].token
+
+	print(stove_token)
+
+	return render(request, 'cooktopper/register.html')
+
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)
 	return render(request, 'cooktopper/burner.html', {'burner': burner})

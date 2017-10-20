@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Stove, BurnerState, Temperature, Burner, PanState, Pan, ProgrammingType, ProgrammingDetails, Programming, Shortcut
 import requests
+import qrcode
 import json
 import time
 from django.utils.crypto import get_random_string
@@ -137,12 +138,25 @@ def homepage(request):
 
 def register(request):
 	stove = Stove.objects.all()
-
 	stove_token = stove[0].token
-
-	print(stove_token)
+	qr_image = generate_qrcode(stove_token)
 
 	return render(request, 'cooktopper/register.html')
+
+def generate_qrcode(token):
+	qr = qrcode.QRCode(
+		version=1,
+		box_size=10,
+		border=1
+	)
+
+	qr.add_data('Paulo não usa windows')
+	qr.make(fit=True)
+	qr_image = qr.make_image()
+
+	qr_image.save('cooktopper/static/image/qr_image.png')
+
+	return qr_image
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)

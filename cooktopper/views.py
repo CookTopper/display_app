@@ -139,6 +139,11 @@ def homepage(request):
 def register(request):
 	stove = Stove.objects.all()
 	stove_token = stove[0].token
+
+	print(stove[0].token)
+
+	print("StoveToken: " + stove_token)
+
 	qr_image = generate_qrcode(stove_token)
 
 	return render(request, 'cooktopper/register.html')
@@ -150,7 +155,9 @@ def generate_qrcode(token):
 		border=1
 	)
 
-	qr.add_data('Paulo não usa windows')
+	print("TOKEN: " + token)
+
+	qr.add_data(token)
 	qr.make(fit=True)
 	qr_image = qr.make_image()
 

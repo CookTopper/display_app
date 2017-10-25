@@ -187,4 +187,15 @@ def burner(request, id):
 		web_service_burner = WebServiceBurner(description=burner.description)
 		web_service_burner.update()
 
+
+	new_temperature_description = request.GET.get('new_temperature')
+
+	if(new_temperature_description is not None):
+		new_temperature = Temperature.objects.get(description=new_temperature_description)
+		burner.temperature = new_temperature
+		burner.save()
+
+		web_service_burner = WebServiceBurner(description=burner.description)
+		web_service_burner.update()
+
 	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})

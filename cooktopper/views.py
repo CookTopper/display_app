@@ -118,6 +118,26 @@ class RequestBurner():
 		tolerance = int(1e31)
 		return int(time.time()) - int(request['new_time']) < tolerance
 
+	def update(self):
+		programming_instance = Programming()
+
+		programming_list = programming_instance.get_list()
+
+		for programming in programming_list:
+			programming_details = programming.programming_details()
+
+			web_service_burner = programming.burner()
+			web_service_burner_id = web_service_burner.id()
+
+			programmed_hour = programming_details.programmed_hour()
+			new_temperature = programming_details.temperature()
+			expected_duration = programming_details.expected_duration()
+			new_web_service_burner_state = WebServiceBurnerState(description='Ligada')
+			web_service_burner_state_id = new_web_service_burner_state.id()
+
+			new_request_json = {'burner_id': web_service_burner_id,'new_temperature': new_temperature, 'new_burner_state': web_service_burner_state_id}
+#			requests.put()
+
 	def update_burners(self, url = 'http://localhost:8000/request_burner/'):
 		requests = self.get_requests(url)
 

@@ -6,15 +6,16 @@ body {
 
 .logo {
   margin-top: 5%;
-  width: 80%;
-  height: 80%;
+  width: 30%;
+  height: 30%;
 }
 
 .lib-panel {
-    margin-top: 20%;
+    margin-top: 5%;
 }
 .lib-panel img {
-    width: 100%;
+  margin-top: 12%;
+    width: 125%;
     background-color: transparent;
 }
 
@@ -24,15 +25,12 @@ body {
     background-color: #C1C1C1;
 }
 
-
-.lib-panel .lib-row {
-    padding: 0 20px 0 20px;
-}
-
 .lib-panel .lib-row.lib-header {
     background-color: #C1C1C1;
-    font-size: 22px;
-    padding: 10px 20px 0 20px;
+    margin-top: 10%;
+    margin-left:10%;
+    font-size: 16px;
+    padding: 10px;
 }
 
 .lib-panel .lib-row.lib-header .lib-header-seperator {

@@ -43,3 +43,23 @@
 .item-menu-margin {
     margin: 10px;
 }
+
+#logo {
+	max-width: inherit;
+	width: 100%;
+	margin-top: 3%;
+}
+
+h5 {
+	margin-top: 5%;
+	color: white;
+}
+
+.img-fluid {
+	margin:5%;
+	width: 90%;
+}
+
+#no-content {
+	width: 100%;
+}

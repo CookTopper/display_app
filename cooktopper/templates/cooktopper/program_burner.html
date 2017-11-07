@@ -6,183 +6,94 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 		<link rel="stylesheet" href="{% static 'css/cooktopper.css' %}">
 		<link rel="stylesheet" href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-    <link type="text/css" href="{% static 'css/bootstrap-timepicker.min.css' %}"/>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="{% static 'js/bootstrap-timepicker.min.js' %}"></script>
+
+		<script src="{% static "jquery/dist/jquery.js" %}"></script>
+		<script src="{% static "js/program_burner.js" %}"></script>
+		
+		<script src="{% static "momentjs/min/moment.min.js" %}"></script>
+		<script src="{% static "bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js" %}"></script>
+		<link rel="stylesheet" href="{% static "bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" %}">
 
 	</head>
 	<body class="black-background">
-		<section id="services">
-				<div class="row vertical-align">
-					<div class="col"></div>
-					<div class="col">
-						<img id="logo" src="../../static/image/logo_fogao_branca.png" alt="">
-					</div>
-					<div class="col"></div>
-				</div>
-				<div class="row vertical-align">
-					<div class="col"></div>
-					<div class="col-ms-4">
-						<h5> Programe o horário de acionamento do seu fogão</h5>
-					</div>
-					<div class="col"></div>
-				</div>
-				<div class= "col horizontal-align"><br></div>
-				<div class="row vertical-align">
-					<div class="col-md-3">
-						{% if burner.burner_state.description == 'Ligada' %}
-							<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
-						{% else %}
-							<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
-						{% endif %}
-					</div>
-					<div class="col-md-1">
-							<div class="mask"></div>
-					</div>
-					<div class="col-md-8">
-						<div class="row vertical-align">
-							<div class="col-ms-2">
-								<span class="burner-info">Horário: </span>
-							</div>
-								<div class="col-ms-4 horizontal-align">
-									<form  style = "margin-left: 5%;">
-									  <input id="appt-time" type="time" name="appt-time" step="2"><!--<span class="input-group-addon"></span> -->
-									</form>
-								</div>
-								<div class="col"></div>
-							</div>
-							<div class= "col horizontal-align"><br></div>
-						<div class="row vertical-align">
-							<div class="col-ms-2">
-								<span class="burner-info">Duração em minutos:<br>(Não obrigatória) </span>
-							</div>
-							<div class="col-ms-4">
-								<form action="/action_page.php" style = "margin-left: 5%;">
-								  <input type="number" name="quantity"
-								   min="0" max="120" step="5" value="0">
-								</form>
-							</div>
+		<form action="" method="get">
+			<section id="services">
+					<div class="row vertical-align">
+						<div class="col"></div>
+						<div class="col">
+							<img id="logo" src="../../static/image/logo_fogao_branca.png" alt="">
 						</div>
-						<div class="row vertical-align">
-							<div class="col-ms-2">
-								<span class="burner-info">Temperatura: </span>
+						<div class="col"></div>
+					</div>
+					<div class="row vertical-align">
+						<div class="col"></div>
+						<div class="col-ms-4">
+							<h5> Programe o horário de acionamento do seu fogão</h5>
+						</div>
+						<div class="col"></div>
+					</div>
+					<div class= "col horizontal-align"><br></div>
+					<div class="row vertical-align">
+						<div class="col-md-3">
+							{% if burner.burner_state.description == 'Ligada' %}
+								<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+							{% else %}
+								<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+							{% endif %}
+						</div>
+						<div class="col-md-1">
+								<div class="mask"></div>
+						</div>
+
+						
+						<div class="col-md-8">
+							<div class="row vertical-align">
+								<div class="col-ms-2">
+									<span class="burner-info">Horário: </span>
+								</div>
+									<div class="col-ms-4 horizontal-align">
+											<input id="time" type="time" name="start_time">
+									</div>
+									<div class="col"></div>
+								</div>
+								<div class= "col horizontal-align"><br></div>
+							<div class="row vertical-align">
+								<div class="col-ms-2">
+									<span class="burner-info">Duração em minutos:<br>(Não obrigatória) </span>
+								</div>
+								<div class="col-ms-4">
+									<input type="number" name="duration" min="0" max="120" step="5" value="0">
+								</div>
 							</div>
-							<div class="col-ms-6" style="margin-left: 5%;">
-								<div class="btn-group" role="group" aria-label="Basic example">
-									<form action="" method="get">
+							<div class="row vertical-align">
+								<div class="col-ms-2">
+									<span class="burner-info">Temperatura: </span>
+								</div>
+								<div class="col-ms-6" style="margin-left: 5%;">
+									<div class="btn-group" role="group" aria-label="Basic example">
 										<button type="submit" class="btn btn-info" name="new_temperature" value="baixa" style="margin-left: 20%;">Baixa</button>
-									</form>
-									<form action="" method="get">
 										<button type="submit" class="btn btn-warning" name="new_temperature" value="media" style="margin-left: 20%;">Média</button>
-									</form>
-									<form action="" method="get">
 										<button type="submit" class="btn btn-danger" name="new_temperature" value="alta" style="margin-left: 20%;">Alta</button>
-									</form>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row horizontal-align">
-					<div class="col-ms-2">
-						<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-left: 5%;">
-							<form action="" method="get">
+					<div class="row horizontal-align">
+						<div class="col-ms-2">
+							<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-left: 5%;">
 								<button type="submit" class="btn btn-danger" value="off" name="turn_burner" style = "margin-left: 25%; margin-botton:3%;">Cancelar</button>
-							</form>
+							</div>
+						</div>
+						<div class="col" id="no-content">
+						</div>
+						<div class="col-ms-2">
+							<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-right: 5%;">
+								<button type="submit" class="btn btn-success" style = "margin-right: 25%; margin-botton:3%;">Confirmar</button>
+							</div>
 						</div>
 					</div>
-					<div class="col" id="no-content">
-					</div>
-					<div class="col-ms-2">
-						<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-right: 5%;">
-							<form action="" method="get">
-								<button type="submit" class="btn btn-success" value="on" name="turn_burner" style = "margin-right: 25%; margin-botton:3%;">Confirmar</button>
-							</form>
-						</div>
-					</div>
-				</div>
-		</section>
+			</section>
+		</form>
 	</body>
-
-	<!-- <body class="black-background">
-		<section id="services">
-    		<div class="row burner-row vertical-align">
-    			<div class="col-md-4">
-    				<div class="row vertical-align">
-    					<div class="col-md-10">
-    						<div class="row vertical-align">
-								<div class="col-md-7">
-									{% if burner.burner_state.description == 'Ligada' %}
-										<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
-									{% else %}
-										<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
-									{% endif %}
-								</div>
-								<div class="col-md-5">
-									{% if burner.burner_state.description == 'Ligada' %}
-										<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
-										<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
-										<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
-									{% else %}
-										<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-	  						<div class="mask"></div>
-	  					</div>
-					</div>
-		        </div>
-				<div class="col-md-2">
-					<div class="row vertical-align item-menu-margin">
-							<span class="burner-info"><h5>Programe o horário de acionamento da boca</h5></span>
-						<div class="col-md-4">
-						</div>
-					</div>
-
-
-					<div class="input-group bootstrap-timepicker timepicker">
-	            <input id="timepicker1" type="text" class="form-control input-small">
-	            <span class="input-group-addon"><img class="img-fluid" src="../../static/image/clock.png" style="height:90%" alt=""></span>
-	        </div>
-
-	        <script type="text/javascript">
-	            $('#timepicker1').timepicker();
-	        </script>
-
-					<div class="row vertical-align item-menu-margin">
-						<div class="col-md-4">
-							<span class="burner-info">Temperatura: </span>
-						</div>
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4">
-							<div class="btn-group" role="group" aria-label="Basic example">
-								<form action="" method="get">
-									<button type="submit" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-warning" name="new_temperature" value="media">Média</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-danger" name="new_temperature" value="alta">Alta</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="btn-group" role="group" aria-label="Basic example">
-								<form action="" method="get">
-									<button type="submit" class="btn btn-danger" value="off" name="turn_burner">Cancelar</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-success" value="on" name="turn_burner">Confirmar</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-    	</section>
-	</body> -->
 </html>

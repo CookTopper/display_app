@@ -38,6 +38,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'cooktopper',
+	'djangobower',
+]
+
+BOWER_INSTALLED_APPS = (
+	'jquery',
+	'underscore',
+	'bootstrap-material-datetimepicker',
+)
+
+PROJECT_ROOT = os.path.abspath(
+	os.path.join(os.path.dirname(__file__), ".."),
+)
+
+BOWER_COMPONENTS_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'components'))
+
+STATICFILES_DIRS = (
+	os.path.join(BOWER_COMPONENTS_ROOT, 'bower_components'),
+)
+
+STATICFILE_FINDERS = [
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+	'djangobower.finders.BowerFinder',
 ]
 
 MIDDLEWARE = [

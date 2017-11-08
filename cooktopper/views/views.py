@@ -75,7 +75,7 @@ def burner(request, id):
 	if(command == 'on' and burner.burner_state.description == 'Desligada'):
 		burner_state_on = BurnerState.objects.get(description='Ligada')
 		burner.burner_state = burner_state_on
-		burner.time = int(time.time()) 
+		burner.time = int(time.time())
 		burner.save()
 
 	if(command == 'off'):
@@ -94,7 +94,9 @@ def burner(request, id):
 
 	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})
 
-def program_burner(request, id):
+def program_burner(request, burner_id):
+	burner = Burner.objects.get(id=burner_id)
+
 	typed_start_time = request.GET.get('start_time')
 	expected_duration = request.GET.get('duration')
 
@@ -122,4 +124,4 @@ def program_burner(request, id):
 		print(start_time_in_seconds)
 		print(finish_time_in_seconds)
 
-	return render(request, 'cooktopper/program_burner.html')
+	return render(request, 'cooktopper/program_burner.html', {'burner': burner, 'current_time': int(time.time())})

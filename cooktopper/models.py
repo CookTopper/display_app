@@ -1,4 +1,5 @@
 from django.db import models
+import time
 
 class Stove(models.Model):
 	token = models.CharField(blank=False, max_length=45)
@@ -29,13 +30,14 @@ class RequestBurner(models.Model):
 	programming_id = models.IntegerField()
 
 	def check_request(self):
-		return True
+		return (int(time.time()) - self.programmed_time) >=0 and (int(time.time()) - self.programmed_time) < 5
 
 	def update_burner(self):
 		check_request = self.check_request()
 		if (check_request):
 			self.burner.update(temperature=self.new_temperature, burner_state=self.new_burner_state, time=self.programmed_time)			
 			self.burner.save()
+			self.delete()
 
 		return check_request
 
@@ -53,6 +55,29 @@ class Programming(models.Model):
 	programmed_time = models.IntegerField()
 	expected_duration = models.IntegerField()
 	creation_time = models.IntegerField()
+
+	def check_request(self):
+		request = RequestBurner.objects.filter(programming_id=self.id)
+
+		return (request.exists() == False)
+
+	def create_request(self, burner_id):
+		print("entrei\n\n\n\n\n\n\n")
+		if (self.check_request()):
+			print("entrei2\n\n\n\n\n\n\n")
+			request_start = RequestBurner(burner=Burner.objects.get(id=burner_id), new_burner_state=self.burner_state,
+										  new_temperature=self.temperature, programmed_time=self.programmed_time,
+										  programming_id=self.id)
+
+			if (self.expected_duration != -1):
+				request_finish = RequestBurner(burner=Burner.objects.get(id=burner_id), new_burner_state=BurnerState.objects.get(description='Desligada'),
+											   new_temperature=self.temperature, programmed_time=int(self.programmed_time) + int(self.expected_duration),
+											   programming_id=self.id)
+
+			request_start.save()
+
+			if (self.expected_duration != -1):
+				request_finish.save()
 
 class Shortcut(models.Model):
 	description = models.CharField(blank=False, max_length=45)

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from  cooktopper.models import Burner, BurnerState, Temperature
+from  cooktopper.models import Burner, BurnerState, Temperature, Programming, RequestBurner
 from .request_burner import WebServiceRequestBurner
 from .web_service import WebService
 from .request_burner import RequestBurner
@@ -32,7 +32,7 @@ def update_burners_from_requests():
 
 	for request in requests:
 		request.update_burner()
-		request.delete()
+		#request.delete()
 
 def update_remote_burners():
 	url = WebService.url + '/burner/'
@@ -99,18 +99,25 @@ def program_burner(request, id):
 	expected_duration = request.GET.get('duration')
 
 	if (typed_start_time is not None and expected_duration is not None):
-		current_hour, current_minutes = time.strftime("%H,%M").split(',')
+		current_hour, current_minutes, current_seconds = time.strftime("%H,%M,%S").split(',')
 		typed_hour, typed_minutes = typed_start_time.split(':')
 
 		current_time_in_seconds = int(current_hour) * 3600 + int(current_minutes) * 60
 		typed_time_in_seconds = int(typed_hour) * 3600 + int(typed_minutes) * 60
 
 		if (typed_time_in_seconds > current_time_in_seconds):
-			start_time_in_seconds = int(time.time()) + (typed_time_in_seconds - current_time_in_seconds)
+			start_time_in_seconds = int(time.time()) - int(current_seconds) + (typed_time_in_seconds - current_time_in_seconds)
 		else:
-			start_time_in_seconds = int(time.time()) + (24 * 3600 - current_time_in_seconds + typed_time_in_seconds)
+			start_time_in_seconds = int(time.time()) - int(current_seconds) + (24 * 3600 - current_time_in_seconds + typed_time_in_seconds)
 
 		finish_time_in_seconds = start_time_in_seconds + int(expected_duration)
+
+		programming = Programming(temperature=Temperature.objects.get(description='media'), burner_state=BurnerState.objects.get(description='Ligada'),
+								  programmed_time=start_time_in_seconds, expected_duration=expected_duration, creation_time=int(time.time()))
+
+		programming.save()
+
+		programming.create_request(2)
 
 		print(start_time_in_seconds)
 		print(finish_time_in_seconds)

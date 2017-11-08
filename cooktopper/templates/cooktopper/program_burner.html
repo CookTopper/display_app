@@ -9,8 +9,9 @@
 
 		<script src="{% static "jquery/dist/jquery.js" %}"></script>
 		<script src="{% static "js/program_burner.js" %}"></script>
-		
+
 		<script src="{% static "momentjs/min/moment.min.js" %}"></script>
+
 		<script src="{% static "bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js" %}"></script>
 		<link rel="stylesheet" href="{% static "bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" %}">
 
@@ -32,26 +33,35 @@
 						</div>
 						<div class="col"></div>
 					</div>
-					<div class= "col horizontal-align"><br></div>
+					<!-- <div class= "col horizontal-align"><br></div> -->
 					<div class="row vertical-align">
-						<div class="col-md-3">
+						<div class="col-md-3" style="margin-left: 2%;">
 							{% if burner.burner_state.description == 'Ligada' %}
 								<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
 							{% else %}
 								<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
 							{% endif %}
 						</div>
+						<div class="col-ms-1" style="margin-right: 2%;">
+							{% if burner.burner_state.description == 'Ligada' %}
+								<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
+								<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
+								<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
+							{% else %}
+								<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
+							{% endif %}
+						</div>
 						<div class="col-md-1">
 								<div class="mask"></div>
 						</div>
 
-						
-						<div class="col-md-8">
+
+						<div class="col-ms-5">
 							<div class="row vertical-align">
 								<div class="col-ms-2">
-									<span class="burner-info">Horário: </span>
+									<span class="burner-info"  style="margin-left: 63%;"> Horário: </span>
 								</div>
-									<div class="col-ms-4 horizontal-align">
+									<div class="col-ms-1 horizontal-align" style="margin-left: 5%;">
 											<input id="time" type="time" name="start_time">
 									</div>
 									<div class="col"></div>
@@ -59,21 +69,21 @@
 								<div class= "col horizontal-align"><br></div>
 							<div class="row vertical-align">
 								<div class="col-ms-2">
-									<span class="burner-info">Duração em minutos:<br>(Não obrigatória) </span>
+									<span class="burner-info"  style="margin-left: 45%;">Desligar às:<br>(opcional) </span>
 								</div>
-								<div class="col-ms-4">
-									<input type="number" name="duration" min="0" max="120" step="5" value="0">
+								<div class="col-ms-1 horizontal-align" style="margin-left: 5%;">
+										<input id="time2" type="time" name="start_time2">
 								</div>
 							</div>
-							<div class="row vertical-align">
+							<div class="row vertical-align" style="margin-top: 3%;">
 								<div class="col-ms-2">
-									<span class="burner-info">Temperatura: </span>
+									<span class="burner-info" style="margin-left:3%;">Temperatura: </span>
 								</div>
-								<div class="col-ms-6" style="margin-left: 5%;">
+								<div class="col-ms-6">
 									<div class="btn-group" role="group" aria-label="Basic example">
-										<button type="submit" class="btn btn-info" name="new_temperature" value="baixa" style="margin-left: 20%;">Baixa</button>
-										<button type="submit" class="btn btn-warning" name="new_temperature" value="media" style="margin-left: 20%;">Média</button>
-										<button type="submit" class="btn btn-danger" name="new_temperature" value="alta" style="margin-left: 20%;">Alta</button>
+										<div style="margin-left: 13%;"><button type="submit" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button></div>
+										<div style="margin-left: 13%;"><button type="submit" class="btn btn-warning" name="new_temperature" value="media">Média</button></div>
+										<div style="margin-left: 13%;"><button type="submit" class="btn btn-danger" name="new_temperature" value="alta">Alta</button></div>
 									</div>
 								</div>
 							</div>
@@ -82,14 +92,14 @@
 					<div class="row horizontal-align">
 						<div class="col-ms-2">
 							<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-left: 5%;">
-								<button type="submit" class="btn btn-danger" value="off" name="turn_burner" style = "margin-left: 25%; margin-botton:3%;">Cancelar</button>
+								<button type="submit" class="btn btn-danger" value="off" name="turn_burner" style = "margin-left: 25%; margin-botton:5%%;">Cancelar</button>
 							</div>
 						</div>
 						<div class="col" id="no-content">
 						</div>
 						<div class="col-ms-2">
 							<div class="btn-group" role="group" aria-label="Basic example"  style = "margin-right: 5%;">
-								<button type="submit" class="btn btn-success" style = "margin-right: 25%; margin-botton:3%;">Confirmar</button>
+								<button type="submit" class="btn btn-success" style = "margin-right: 25%;">Confirmar</button>
 							</div>
 						</div>
 					</div>

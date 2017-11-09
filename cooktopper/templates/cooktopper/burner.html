@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<title>Cooktopper</title>
-		<meta http-equiv="refresh" content="3" >
+		<!-- <meta http-equiv="refresh" content="3" > -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 		<link rel="stylesheet" href="{% static 'css/cooktopper.css' %}">
 		<link rel="stylesheet" href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}">
@@ -14,76 +14,87 @@
 
 	<body class="black-background">
 		<section id="services">
-    		<div class="row burner-row vertical-align">
-    			<div class="col-md-4">
-    				<div class="row vertical-align">
-    					<div class="col-md-10">
-    						<div class="row vertical-align">
-								<div class="col-md-7">
-									{% if burner.burner_state.description == 'Ligada' %}
-										<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
-									{% else %}
-										<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
-									{% endif %}
-								</div>
-								<div class="col-md-5">
-									{% if burner.burner_state.description == 'Ligada' %}
-										<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
-										<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
-										<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
-									{% else %}
-										<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2">
-	  						<div class="mask"></div>
-	  					</div>
+			<div class="row vertical-align">
+				<div class="col"></div>
+				<div class="col">
+					<img id="logo" src="../../static/image/logo_fogao_branca.png" alt="">
+				</div>
+				<div class="col"></div>
+			</div>
+			<div class="row vertical-align">
+				<div class="col"></div>
+				<div class="col-ms-4">
+					<h5> Aqui você pode ligar/desligar ou alterar a temperatura do seu fogão </h5>
+				</div>
+				<div class="col"></div>
+			</div>
+
+			<div class="row vertical-align">
+				<div class="col-md-3" style="margin-left: 2%;">
+					{% if burner.burner_state.description == 'Ligada' %}
+						<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+					{% else %}
+						<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+					{% endif %}
+				</div>
+					<div class="col-ms-1" style="margin-right: 2%;">
+						{% if burner.burner_state.description == 'Ligada' %}
+							<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
+							<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
+							<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
+						{% else %}
+							<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
+						{% endif %}
 					</div>
-		        </div>
-				<div class="col-md-2">
-					<div class="row vertical-align item-menu-margin">
-						<div class="col-md-4">
-							<span class="burner-info">Ligar/Desligar: </span>
-						</div>
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4">
-							<div class="btn-group" role="group" aria-label="Basic example">
-								<form action="" method="get">
-									<button type="submit" class="btn btn-secondary" value="on" name="turn_burner">Ligar</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-danger" value="off" name="turn_burner">Desligar</button>
-								</form>
-							</div>
-						</div>
+					<div class="col-md-1">
+						<div class="mask"></div>
 					</div>
-					<div class="row vertical-align item-menu-margin">
-						<div class="col-md-4">
-							<span class="burner-info">Temperatura: </span>
-						</div>
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4">
-							<div class="btn-group" role="group" aria-label="Basic example">
-								<form action="" method="get">
-									<button type="submit" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-warning" name="new_temperature" value="media">Média</button>
-								</form>
-								<form action="" method="get">
-									<button type="submit" class="btn btn-danger" name="new_temperature" value="alta">Alta</button>
-								</form>
-							</div>
+
+		<div class="col-ms-8">
+				<div class="row vertical-align" style="margin-top: 3%;">
+					<div class="col-ms-2">
+						<span class="burner-info">Temperatura: </span>
+					</div>
+					<div class="col-ms-6">
+						<div class="btn-group" role="group" aria-label="Basic example">
+							<div style="margin-left: 13%;"><button type="submit" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button></div>
+							<div style="margin-left: 13%;"><button type="submit" class="btn btn-warning" name="new_temperature" value="media">Média</button></div>
+							<div style="margin-left: 13%;"><button type="submit" class="btn btn-danger" name="new_temperature" value="alta">Alta</button></div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class= "col horizontal-align"><br></div>
+					<div class="col-ms-2">
+						<span class="burner-info">Ligar/Desligar: </span>
+					</div>
+					<div class="col-ms-6">
+						<div class="btn-group" role="group" aria-label="Basic example">
+							<form action="" method="get" style="margin-left:13%;">
+								<button type="submit" class="btn btn-secondary" value="on" name="turn_burner">Ligar</button>
+							</form>
+							<form action="" method="get" style="margin-left:13%;">
+								<button type="submit" class="btn btn-danger" value="off" name="turn_burner">Desligar</button>
+							</form>
+						</div>
 				</div>
-    		</div>
-    	</section>		
+			</div>
+		</div>
+			</section>
 	</body>
 </html>
+<!-- <div class="row vertical-align">
+	<div class="col-ms-2">
+		<div class="row vertical-align item-menu-margin">
+		<span class="burner-info">Ligar/Desligar: </span>
+	</div>
+		<div class="col-ms-2">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<form action="" method="get">
+					<button type="submit" class="btn btn-secondary" value="on" name="turn_burner">Ligar</button>
+				</form>
+				<form action="" method="get">
+					<button type="submit" class="btn btn-danger" value="off" name="turn_burner">Desligar</button>
+				</form>
+			</div>
+		</div>
+	</div> -->

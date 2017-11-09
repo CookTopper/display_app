@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from  cooktopper.models import Burner, BurnerState, Temperature, Programming, RequestBurner
 from .request_burner import WebServiceRequestBurner
 from .web_service import WebService
 from .request_burner import RequestBurner
 from .burner import WebServiceBurner
+from .programming import WebServiceProgramming
 import time
 import requests
 
@@ -94,7 +95,7 @@ def burner(request, id):
 
 	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})
 
-def program_burner(request, id):
+def program_burner(request, burner_id):
 	typed_start_time = request.GET.get('start_time')
 	expected_duration = request.GET.get('duration')
 
@@ -117,9 +118,13 @@ def program_burner(request, id):
 
 		programming.save()
 
-		programming.create_request(2)
+		programming.create_request(burner_id)
 
 		print(start_time_in_seconds)
 		print(finish_time_in_seconds)
 
 	return render(request, 'cooktopper/program_burner.html')
+
+def view_aux(request):
+	burner = Burner.objects.get(description='1')
+	return render(request, 'cooktopper/aux.html', { 'burner': burner })

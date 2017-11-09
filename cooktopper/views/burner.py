@@ -15,6 +15,7 @@ class WebServiceBurner():
 		elif request_json is not None:
 			self.request_json = request_json
 		else:
+			print("here")
 			#Invalid option
 			pass
 

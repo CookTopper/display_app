@@ -50,35 +50,33 @@
 						<div class="mask"></div>
 					</div>
 
-		<div class="col-ms-8">
-				<div class="row vertical-align" style="margin-top: 3%;">
-					<div class="col-ms-2">
-						<span class="burner-info">Temperatura: </span>
-					</div>
-					<div class="col-ms-6">
-						<div class="btn-group" role="group" aria-label="Basic example">
-							<div style="margin-left: 13%;"><button type="submit" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button></div>
-							<div style="margin-left: 13%;"><button type="submit" class="btn btn-warning" name="new_temperature" value="media">Média</button></div>
-							<div style="margin-left: 13%;"><button type="submit" class="btn btn-danger" name="new_temperature" value="alta">Alta</button></div>
+		<form action="" method="get">	
+			<div class="col-ms-8">
+					<div class="row vertical-align" style="margin-top: 3%;">
+						<div class="col-ms-2">
+							<span class="burner-info">Temperatura: </span>
+						</div>
+						<div class="col-ms-6">
+							<div class="btn-group" role="group" aria-label="Basic example">
+								<div style="margin-left: 13%;"><button type="button" class="btn btn-info" name="new_temperature" value="baixa">Baixa</button></div>
+								<div style="margin-left: 13%;"><button type="button" class="btn btn-warning" name="new_temperature" value="media">Média</button></div>
+								<div style="margin-left: 13%;"><button type="button" class="btn btn-danger" name="new_temperature" value="alta">Alta</button></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class= "col horizontal-align"><br></div>
-					<div class="col-ms-2">
-						<span class="burner-info">Ligar/Desligar: </span>
-					</div>
-					<div class="col-ms-6">
-						<div class="btn-group" role="group" aria-label="Basic example">
-							<form action="" method="get" style="margin-left:13%;">
-								<button type="submit" class="btn btn-secondary" value="on" name="turn_burner">Ligar</button>
-							</form>
-							<form action="" method="get" style="margin-left:13%;">
-								<button type="submit" class="btn btn-danger" value="off" name="turn_burner">Desligar</button>
-							</form>
+					<div class= "col horizontal-align"><br></div>
+						<div class="col-ms-2">
+							<span class="burner-info">Ligar/Desligar: </span>
 						</div>
+						<div class="col-ms-6">
+							<div class="btn-group" role="group" aria-label="Basic example">
+									<div style="margin-left: 13%;"><button type="submit" class="btn btn-secondary" value="on" name="turn_burner">Ligar</button></div>
+									<div style="margin-left: 13%;"><button type="submit" class="btn btn-danger" value="off" name="turn_burner">Desligar</button></div>
+							</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 			</section>
 	</body>
 </html>

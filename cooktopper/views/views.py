@@ -87,26 +87,39 @@ def burner(request, id):
 
 	new_temperature_description = request.GET.get('new_temperature')
 
+
+	print(new_temperature_description)
+
 	if(new_temperature_description is not None):
+		print(new_temperature_description)
+
 		new_temperature = Temperature.objects.get(description=new_temperature_description)
 		burner.temperature = new_temperature
 		burner.save()
-
 
 	return render(request, 'cooktopper/burner.html', {'burner': burner, 'current_time': int(time.time())})
 
 def program_burner(request, burner_id):
 	burner = Burner.objects.get(id=burner_id)
 
-	typed_start_time = request.GET.get('start_time')
-	expected_duration = request.GET.get('duration')
+	new_temperature_description = request.GET.get('new_temperature')
 
-	if (typed_start_time is not None and expected_duration is not None):
+	typed_start_time = request.GET.get('start_time')
+	typed_finish_time = request.GET.get('finish_time')
+
+	if (typed_start_time is not None and typed_finish_time is not None and new_temperature_description is not None):
 		current_hour, current_minutes, current_seconds = time.strftime("%H,%M,%S").split(',')
 		typed_hour, typed_minutes = typed_start_time.split(':')
+		typed_finish_hour, typed_finish_minutes = typed_finish_time.splite(':')
 
 		current_time_in_seconds = int(current_hour) * 3600 + int(current_minutes) * 60
 		typed_time_in_seconds = int(typed_hour) * 3600 + int(typed_minutes) * 60
+		typed_finish_time_in_seconds = int(typed_finish_hour) * 3600 + int(typed_finish_minutes) * 60
+
+		if (typed_finish_hour_in_seconds > typed_time_in_seconds):
+			expected_duration = typed_finish_hour_in_seconds - typed_time_in_seconds
+		else:
+			expected_duration = 24 * 3600 - typed_time_in_seconds * 60 + typed_finish_time_in_seconds * 60	
 
 		if (typed_time_in_seconds > current_time_in_seconds):
 			start_time_in_seconds = int(time.time()) - int(current_seconds) + (typed_time_in_seconds - current_time_in_seconds)
@@ -115,7 +128,9 @@ def program_burner(request, burner_id):
 
 		finish_time_in_seconds = start_time_in_seconds + int(expected_duration)
 
-		programming = Programming(temperature=Temperature.objects.get(description='media'), burner_state=BurnerState.objects.get(description='Ligada'),
+		new_temperature = Temperature.objects.get(description=new_temperature_description)
+
+		programming = Programming(temperature=new_temperature, burner_state=BurnerState.objects.get(description='Ligada'),
 								  programmed_time=start_time_in_seconds, expected_duration=expected_duration, creation_time=int(time.time()))
 
 		programming.save()

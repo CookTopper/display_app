@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from  cooktopper.models import Burner, BurnerState, Temperature, Programming, RequestBurner
+from  cooktopper.models import Burner, BurnerState, Temperature, Programming, RequestBurner, Stove
 from .request_burner import WebServiceRequestBurner
 from .web_service import WebService
 from .request_burner import RequestBurner
@@ -7,6 +7,8 @@ from .burner import WebServiceBurner
 from .programming import WebServiceProgramming
 import time
 import requests
+import qrcode
+from django.utils.crypto import get_random_string
 
 def update_local_programmings():
 	url = WebService.url + '/programming/'
@@ -141,3 +143,32 @@ def program_burner(request, burner_id):
 		print(finish_time_in_seconds)
 
 	return render(request, 'cooktopper/program_burner.html', {'burner': burner, 'current_time': int(time.time())})
+
+def register(request):
+	stove = Stove.objects.all()
+	stove_token = stove[0].token
+
+	print(stove[0].token)
+
+	print("StoveToken: " + stove_token)
+
+	qr_image = generate_qrcode(stove_token)
+
+	return render(request, 'cooktopper/register.html')
+
+def generate_qrcode(token):
+	qr = qrcode.QRCode(
+		version=1,
+		box_size=10,
+		border=1
+	)
+
+	print("TOKEN: " + token)
+
+	qr.add_data(token)
+	qr.make(fit=True)
+	qr_image = qr.make_image()
+
+	qr_image.save('cooktopper/static/image/qr_image.png')
+
+	return qr_image

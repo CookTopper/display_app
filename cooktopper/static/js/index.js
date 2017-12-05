@@ -6,7 +6,7 @@ function update_burner(){
 		success: function(data){
 			setTimeout(function(){
 				$('#burner').html(data);
-			}, 1000);
+			}, 300);
 		}});
 };
 

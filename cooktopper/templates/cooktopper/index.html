@@ -45,19 +45,7 @@
     		<div class="row burner-row vertical-align">
     			<div class="col-md-4">
     				<div class="row vertical-align">
-	    				<div class="col-md-10">
-	    					<div class="row vertical-align">
-		    					<div class="col-md-6">
-			                		<img class="img-fluid" src="../../static/image/scale.png" alt="">
-			                		</div>
-			                	<div class="col-md-6">
-			                		<span class="badge badge-pill badge-light">Fora de uso</span>
-			                		<span class="burner-info">
-			                			<h4>126 kg</h4>
-			                		</span>
-			                	</div>
-			                </div>
-	    				</div>
+						 	{% include "/home/igor/pi2/display_app/cooktopper/templates/cooktopper/scale.html" %} 
 	    				<div class="col-md-2">
 	  						<div class="mask"></div>
 	  					</div>
@@ -68,9 +56,9 @@
 						<div class="row vertical-align">
 							<div class="col-md-7">
 								{% if burner.burner_state.description == 'Ligada' %}
-									<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+									<a href="/burner/{{burner.id}}"><img class="img-fluid" src="../../static/image/fire_on.png" alt=""></a>
 								{% else %}
-									<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+									<a href="/burner/{{burner.id}}"><img class="img-fluid" src="../../static/image/fire_off.png" alt=""></a>
 								{% endif %}
 							</div>
 							<div class="col-md-5">

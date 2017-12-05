@@ -8,13 +8,14 @@ from .programming import WebServiceProgramming
 import time
 import requests
 import qrcode
+from django.http import HttpResponse
+import json
 from django.utils.crypto import get_random_string
+from django.views.decorators.csrf import csrf_exempt
 
 def update_local_programmings():
 	url = WebService.url + '/programming/'
 	web_service_programming_burners_json = requests.get(url).json()
-
-	print (web_service_programming_burners_json)
 
 	for web_service_programming_burner_json in web_service_programming_burners_json:
 		web_service_programming = WebServiceProgramming(request_json=web_service_programming_burner_json)
@@ -23,8 +24,6 @@ def update_local_programmings():
 def update_local_requests():
 	url = WebService.url + '/request_burner/'
 	web_service_request_burners_json = requests.get(url).json()
-
-	print (web_service_request_burners_json)
 
 	for web_service_request_burner_json in web_service_request_burners_json:
 		web_service_request_burner = WebServiceRequestBurner(request_json=web_service_request_burner_json)
@@ -35,13 +34,10 @@ def update_burners_from_requests():
 
 	for request in requests:
 		request.update_burner()
-		#request.delete()
 
 def update_remote_burners():
 	url = WebService.url + '/burner/'
 	web_service_burners_json = requests.get(url).json()
-
-	print (web_service_burners_json)
 
 	for web_service_burner_json in web_service_burners_json:
 		web_service_burner = WebServiceBurner(request_json=web_service_burner_json)
@@ -50,8 +46,6 @@ def update_remote_burners():
 def update_remote_programmings():
 	url = WebService.url + '/programming/'
 	web_service_programmings_json = requests.get(url).json()
-
-	print (web_service_programmings_json)
 
 	for web_service_programming_json in web_service_programmings_json:
 		web_service_programming = WebServiceProgramming(request_json=web_service_programming_json)
@@ -69,6 +63,10 @@ def homepage(request):
 	burners = Burner.objects.all()
 
 	return render(request, 'cooktopper/index.html', {'burners': burners, 'current_time': int(time.time())})
+
+def scale(request):
+
+	return render(request, 'cooktopper/scale.html')
 
 def burner(request, id):
 	burner = Burner.objects.get(pk=id)
@@ -109,17 +107,18 @@ def program_burner(request, burner_id):
 	typed_start_time = request.GET.get('start_time')
 	typed_finish_time = request.GET.get('finish_time')
 
-	if (typed_start_time is not None and typed_finish_time is not None and new_temperature_description is not None):
+	new_temperature_description='media'
+	if (typed_start_time is not None and typed_finish_time is not None):
 		current_hour, current_minutes, current_seconds = time.strftime("%H,%M,%S").split(',')
 		typed_hour, typed_minutes = typed_start_time.split(':')
-		typed_finish_hour, typed_finish_minutes = typed_finish_time.splite(':')
+		typed_finish_hour, typed_finish_minutes = typed_finish_time.split(':')
 
 		current_time_in_seconds = int(current_hour) * 3600 + int(current_minutes) * 60
 		typed_time_in_seconds = int(typed_hour) * 3600 + int(typed_minutes) * 60
 		typed_finish_time_in_seconds = int(typed_finish_hour) * 3600 + int(typed_finish_minutes) * 60
 
-		if (typed_finish_hour_in_seconds > typed_time_in_seconds):
-			expected_duration = typed_finish_hour_in_seconds - typed_time_in_seconds
+		if (typed_finish_time_in_seconds > typed_time_in_seconds):
+			expected_duration = typed_finish_time_in_seconds - typed_time_in_seconds
 		else:
 			expected_duration = 24 * 3600 - typed_time_in_seconds * 60 + typed_finish_time_in_seconds * 60
 
@@ -155,6 +154,26 @@ def register(request):
 	qr_image = generate_qrcode(stove_token)
 
 	return render(request, 'cooktopper/register.html')
+
+@csrf_exempt
+def server_burner(request):
+	if (request.method == "POST"):
+		print("POST")
+
+		if (request.POST.get('burner_state') is not None):
+			print(request.POST.get('burner_state'))
+
+		if (request.POST.get('temperature') is not None):
+			print(request.POST.get('temperature'))
+
+	elif (request.method == "GET"):
+		print("GET")
+
+	burner = Burner.objects.all()
+
+	burner_json = json.dumps([{'burner': 1, 'burner_state': burner[0].burner_state.description, 'temperature': burner[0].temperature.description}, {'burner': 2, 'burner_state': burner[1].burner_state.description, 'temperature': burner[1].temperature.description}])
+
+	return HttpResponse(burner_json, content_type='application/json')
 
 def generate_qrcode(token):
 	qr = qrcode.QRCode(

@@ -63,6 +63,8 @@ class WebServiceRequestBurner():
 									   new_burner_state=self.web_service_new_burner_state().get_local(), programmed_time=self.programmed_time(),
 									   programming_id=self.web_service_programming_id())
 
+		print("CRIEI O REQUEST")
+
 		request_burner.save()
 		self.delete()
 

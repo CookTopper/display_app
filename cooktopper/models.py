@@ -18,9 +18,11 @@ class Burner(models.Model):
 	time = models.IntegerField()
 
 	def update(self, temperature, burner_state, time):
+		if (burner_state != self.burner_state):
+			self.time = time
+
 		self.temperature = temperature
 		self.burner_state = burner_state
-		self.time = time
 
 class RequestBurner(models.Model):
 	burner = models.ForeignKey(Burner, on_delete=models.CASCADE)
@@ -30,11 +32,18 @@ class RequestBurner(models.Model):
 	programming_id = models.IntegerField()
 
 	def check_request(self):
-		return (int(time.time()) - self.programmed_time) >=0 and (int(time.time()) - self.programmed_time) < 5
+		print("programmed time: ", self.programmed_time)
+		print("time: ", time.time())
+		return (int(time.time()) - self.programmed_time) >=0 and (int(time.time()) - self.programmed_time) < 10 
 
 	def update_burner(self):
 		check_request = self.check_request()
+		print("entrei no update burner")
 		if (check_request):
+			print("passei no check")
+			print("Temperatura: ", self.new_temperature.description)
+			print("Burner State: ", self.new_burner_state.description)
+			print("Time: ", self.programmed_time)
 			self.burner.update(temperature=self.new_temperature, burner_state=self.new_burner_state, time=self.programmed_time)			
 			self.burner.save()
 			self.delete()

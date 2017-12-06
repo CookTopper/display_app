@@ -155,6 +155,11 @@ def register(request):
 
 	return render(request, 'cooktopper/register.html')
 
+def choose_burner(request):
+	burners = Burner.objects.all()
+
+	return render(request, 'cooktopper/choose_burner.html', {'burners': burners})
+
 @csrf_exempt
 def server_burner(request):
 	if (request.method == "POST"):

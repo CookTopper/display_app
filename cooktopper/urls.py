@@ -6,6 +6,7 @@ urlpatterns = [
 	url(r'^burner/(?P<id>\d+)/$', views.burner, name='burner'),
 	url(r'^program_burner/(?P<burner_id>\d+)/$', views.program_burner, name='program_burner'),
 	url(r'^register/$', views.register, name='register'),
+	url(r'^choose_burner/$', views.choose_burner, name='choose_burner'),
 	url(r'^server_burner/$', views.server_burner),
 	url(r'^scale/$', views.scale)
 ]

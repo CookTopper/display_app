@@ -49,40 +49,28 @@
 					<div class="col"></div>
 				</div>
 				<div class="row vertical-align">
-					<div class="col-md-3" style="margin-left: 2%;">
-						{% if burner.burner_state.description == 'Ligada' %}
-							<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
-						{% else %}
-							<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+					{% for burner in burners %}
+						<div class="col-md-3">
+							{% if burner.burner_state.description == 'Ligada' %}
+								<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+							{% else %}
+								<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+							{% endif %}
+						</div>
+						<div class="col-ms-1">
+							{% if burner.burner_state.description == 'Ligada' %}
+								<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
+								<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
+							{% else %}
+								<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
+							{% endif %}
+						</div>
+						{% if burner.description == '1' %}
+							<div class="col-md-1">
+								<div class="mask"></div>
+							</div>
 						{% endif %}
-					</div>
-					<div class="col-ms-1" style="margin-right: 2%;">
-						{% if burner.burner_state.description == 'Ligada' %}
-							<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
-							<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
-							<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
-						{% else %}
-							<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
-						{% endif %}
-					</div>
-					<div class="col-md-1" style="margin-left: 7%;">
-							<div class="mask"></div>
-					</div>
-					<div class="col-md-3">
-						{% if burner.burner_state.description == 'Ligada' %}
-							<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
-						{% else %}
-							<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
-						{% endif %}
-					</div>
-					<div class="col-ms-1">
-						{% if burner.burner_state.description == 'Ligada' %}
-							<span class="badge badge-pill badge-danger">{{burner.burner_state.description}}</span>
-							<span class="burner-info"><i class="fa fa-thermometer-empty"></i> {{burner.temperature.description}}</span>
-							<span class="burner-info"><i class="fa fa-clock-o"></i> {{current_time|sub_time:burner.time}}</span>
-						{% else %}
-							<span class="badge badge-pill badge-light">{{burner.burner_state.description}}</span>
-						{% endif %}
-					</div>
+					{% endfor %}
+				</div>		
 		</body>
 </html>

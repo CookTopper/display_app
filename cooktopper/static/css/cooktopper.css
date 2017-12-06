@@ -75,3 +75,13 @@ h6 {
 #no-content {
 	width: 100%;
 }
+
+.radio-options {
+	margin: 10;
+	color: white;
+}
+
+.radio-option {
+	margin: 5;
+	vertical-align: middle;
+}

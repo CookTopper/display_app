@@ -16,31 +16,7 @@
 		<link rel="stylesheet" href="{% static "bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" %}">
 
 		<body class="black-background">
-			<div id="custom-bootstrap-menu" class="navbar navbar-default navbar-expand-sm navbar-fixed-top" role="navigation">
-			      <div class="container-fluid">
-			          <div class="navbar-header">
-			            <a class="navbar-brand" href="/">CookTopper</a>
-			          </div>
-			          <div id="nav-content justify-content-end">
-			              <ul class="nav navbar-nav navbar-right">
-			                  <li class="nav-item"><a class="nav-link" href="/choose_burner.html">Programar boca</a>
-			                  </li>
-			                  <li class="nav-item"><a class="nav-link" href="/about-us">Programar desligamento</a>
-			                  </li>
-			                  <li class="nav-item"><a class="nav-link" href="/help">Ajuda Topper</a>
-			                  </li>
-			              </ul>
-			          </div>
-			      </div>
-			  </div>
-			  <div class="row vertical-align">
-			    <div class="col"></div>
-			    <div class="col">
-			      <img id="logo" src="../../static/image/logo_fogao_branca.png" alt="">
-			    </div>
-			    <div class="col"></div>
-			  </div>
-
+			{% include "/home/markes/pi2/display_app/cooktopper/templates/cooktopper/menu.html" %}
 				<div class="row vertical-align">
 					<div class="col"></div>
 					<div class="col-ms-4">
@@ -49,12 +25,13 @@
 					<div class="col"></div>
 				</div>
 				<div class="row vertical-align">
+					<div class="col"></div>
 					{% for burner in burners %}
 						<div class="col-md-3">
 							{% if burner.burner_state.description == 'Ligada' %}
-								<img class="img-fluid" src="../../static/image/fire_on.png" alt="">
+								<a href="/program_burner/{{burner.id}}"><img class="img-fluid-choose" src="../../static/image/fire_on.png" alt=""></a>
 							{% else %}
-								<img class="img-fluid" src="../../static/image/fire_off.png" alt="">
+								<a href="/program_burner/{{burner.id}}"><img class="img-fluid-choose" src="../../static/image/fire_off.png" alt=""></a>
 							{% endif %}
 						</div>
 						<div class="col-ms-1">
@@ -71,6 +48,7 @@
 							</div>
 						{% endif %}
 					{% endfor %}
-				</div>		
+					<div class="col"></div>
+				</div>
 		</body>
 </html>

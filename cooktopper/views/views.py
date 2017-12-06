@@ -62,10 +62,13 @@ def homepage(request):
 
 	burners = Burner.objects.all()
 
-	return render(request, 'cooktopper/index.html', {'burners': burners, 'current_time': int(time.time())})
+	#r=requests.get('http://192.168.12.214')
+	#weight=r.json()['weight']
+	weight=4
+
+	return render(request, 'cooktopper/index.html', {'burners': burners, 'current_time': int(time.time()), 'weight': abs(int(weight))})
 
 def scale(request):
-
 	return render(request, 'cooktopper/scale.html')
 
 def burner(request, id):
@@ -142,6 +145,17 @@ def program_burner(request, burner_id):
 		print(finish_time_in_seconds)
 
 	return render(request, 'cooktopper/program_burner.html', {'burner': burner, 'current_time': int(time.time())})
+
+@csrf_exempt
+def aux(request):
+	new_temperature_description = request.GET.get('new_temperature')
+#	new_temperature_description2 = request.POST.get('new_temperature')
+
+#	print(new_temperature_description2)
+
+#	print(new_temperature_description)
+
+	return render(request, 'cooktopper/aux.html')
 
 def register(request):
 	stove = Stove.objects.all()
